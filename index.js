@@ -4,13 +4,15 @@ var title = document.getElementsByClassName("title")[0];
 var turn = true;
 var round = 0;
 var play = true;
+var posBot = 1;
 
 function win(winning){
     if(winning){
-        let player = turn ? 1 : 2;
+        let player = !turn ? 1 : 2;
         title.innerText = `player ${player} win`;
         play = false;
-    } else if(round == 8){
+        round = 0;
+    } else if(round === 9){
         title.innerText = "draw";
         play = false;
     }
@@ -41,78 +43,96 @@ function checkWin(x,i){
     }
 }
 
-function botAI(x,i){
+function botAIx(i){
     let rowStart = Math.floor(i/3)*3;
     let colStart = i%3;
     // Check rows
-    if(square[rowStart].innerText === square[rowStart + 1].innerText && square[rowStart + 1].innerText!== "" && square[rowStart + 2].innerText ===""){
-    square[rowStart + 2].innerText = "o";
-    console.log(1);
-    return;
-    } else if(square[rowStart +1].innerText === square[rowStart + 2].innerText && square[rowStart + 2].innerText!=="" && square[rowStart].innerText ===""){
-    square[rowStart].innerText = "o";
-    console.log(2);
-    return;
-    } else if(square[rowStart].innerText ===square[rowStart + 2].innerText && square[rowStart + 2].innerText!== "" && square[rowStart + 1].innerText === ""){
-    square[rowStart + 1].innerText = "o";
-    console.log(2);
-    return;
+    if(square[rowStart].innerText === square[rowStart + 1].innerText && square[rowStart + 1].innerText !== "" && square[rowStart + 2].innerText ===""){
+        console.log(1);
+        return square[rowStart + 2];
+    } if(square[rowStart +1].innerText === square[rowStart + 2].innerText && square[rowStart + 2].innerText!=="" && square[rowStart].innerText ===""){
+        console.log(2);
+        return square[rowStart];
+    } if(square[rowStart].innerText ===square[rowStart + 2].innerText && square[rowStart + 2].innerText!== "" && square[rowStart + 1].innerText === ""){
+        console.log(2);
+        return square[rowStart + 1];
     }
     // Check columns
-    else if(square[colStart].innerText === square[colStart+3].innerText && square[colStart+3] !=="" && square[colStart+6].innerText ===""){
-    square[colStart+6].innerText = "o";
-    console.log(3);
-    } else if(square[colStart].innerText === square[colStart+6].innerText && square[colStart+6].innerText !== "" && square[colStart+3].innerText === ""){
-    square[colStart+3].innerText = "o";
-    console.log(4);
-    } else if(square[colStart +3].innerText === square[colStart+6].innerText && square[colStart+6].innerText !=="" && square[colStart].innerText === ""){
-    square[colStart].innerText = "o";
-    console.log(5);
+    if(square[colStart].innerText === square[colStart+3].innerText && square[colStart+3].innerText !=="" && square[colStart+6].innerText ===""){
+        console.log(3);
+        return square[colStart + 6];
+    } if(square[colStart].innerText === square[colStart+6].innerText && square[colStart+6].innerText !== "" && square[colStart+3].innerText === ""){
+        console.log(4);
+        return square[colStart + 3];
+    } if(square[colStart +3].innerText === square[colStart+6].innerText && square[colStart+6].innerText !=="" && square[colStart].innerText === ""){
+        console.log(5);
+        return square[colStart];
     }
     // Check diagonals
-    else if(square[0].innerText === square[4].innerText && square[4].innerText !== "" && square[8].innerText ===""){
-    square[8].innerText = "o";
-    console.log(6);
-    } else if(square[4].innerText === square[8].innerText && square[4].innerText !== "" && square[0].innerText === ""){
-    square[0].innerText = "o";
-    console.log(7);
-    } else if(square[0].innerText === square[8].innerText && square[0].innerText !== "" && square[4].innerText === ""){
-    square[4].innerText = "o";
-    console.log(8);
-    } else if(square[2].innerText === square[4].innerText && square[4].innerText !== "" && square[6].innerText === ""){
-    square[6].innerText = "o";
-    console.log(9);
-    } else if(square[4].innerText === square[6].innerText && square[4].innerText !== "" && square[2].innerText === ""){
-    square[2].innerText = "o";
-    console.log(10);
-    } else if(square[2].innerText === square[6] && square[2] !== "" && square[4].innerText === ""){
-    square[4].innerText = "o";
-    console.log(11);
-    }
-    // Random move
-    else {
+ if(square[0].innerText === square[4].innerText && square[4].innerText !== "" && square[8].innerText ===""){
+     console.log(6);
+        return square[8];
+    } if(square[4].innerText === square[8].innerText && square[4].innerText !== "" && square[0].innerText === ""){
+        console.log(7);
+        return square[0];
+    } if(square[0].innerText === square[8].innerText && square[0].innerText !== "" && square[4].innerText === ""){
+        console.log(8);
+        return square[4];
+    } if(square[2].innerText === square[4].innerText && square[4].innerText !== "" && square[6].innerText === ""){
+        console.log(9);
+        return square[6];
+    } if(square[4].innerText === square[6].innerText && square[4].innerText !== "" && square[2].innerText === ""){
+        console.log(10);
+        return square[2];
+    } if(square[2].innerText === square[6] && square[2] !== "" && square[4].innerText === ""){
+        console.log(11);
+        return square[4];
+    } else return null;
+}
+
+function botAI(i,j){
+    let y = null;
+    console.log(j);
+    let jx = botAIx(j);
+    let jy = botAIx(i);
+        if(jx !== null){
+            y = jx;
+        } else if (jy !== null){
+            y = jy;
+        }  else{
         let run = true;
-        while(run){
-            let n = Math.floor(Math.random()*8);
-            if(square[n].innerText === ""){
-                square[n].innerText = "o";
-                run = false;
-                console.log(n);
+            while(run){
+                let k = Math.floor(Math.random()*8);
+                if(square[k].innerText === "" && round <= 8){
+                    run = false;
+                    posBot = k;
+                    y = square[k];
+                }
             }
-        }
     }
+
+    if(y !== null){
+        y.innerText = "o";
+    }
+    return y;
 }
 
 function check(x,i){
     if(x.innerText === "" && play){
         x.innerText = "x";
-        round++;     
+        round++;
+        turn = !turn;     
         checkWin(x,i);
-        if(round < 8 && play){
-            botAI(x,i);
+        console.log(round);
+        setTimeout(() => {if(round < 8 && play){
+            let y = botAI(i,posBot);
+            turn = !turn;
             round++;
-            checkWin(x,i);
-        };
+            checkWin(y,posBot);
+        };}, 50);
+        if(round === 9){
+            win(false);
+        }
     };
 }
 
