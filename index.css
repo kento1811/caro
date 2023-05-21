@@ -56,3 +56,13 @@ body{
     cursor: pointer;
 }
 
+@media only screen and (max-width: 640px) {
+    /*-- Code cho màn hình nhỏ (Mobile) viết ở đây --*/
+    .game{
+        width : 75%;
+        height: 300px;
+    }
+    .square{
+        font-size: 535%;
+    }
+}
