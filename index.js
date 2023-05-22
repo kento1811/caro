@@ -84,7 +84,7 @@ function botAIx(i){
     } if(square[4].innerText === square[6].innerText && square[4].innerText !== "" && square[2].innerText === ""){
         console.log(10);
         return square[2];
-    } if(square[2].innerText === square[6] && square[2] !== "" && square[4].innerText === ""){
+    } if(square[2].innerText === square[6].innerText && square[2].innerText !== "" && square[4].innerText === ""){
         console.log(11);
         return square[4];
     } else return null;
