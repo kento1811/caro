@@ -8,8 +8,8 @@ var posBot = 1;
 
 function win(winning){
     if(winning){
-        let player = !turn ? 1 : 2;
-        title.innerText = `player ${player == 1 ? "player" : "AI"} win`;
+        let player = !turn ? "player"  : "AI";
+        title.innerText = `player ${player} win`;
         play = false;
         round = 0;
     } else if(round === 9){
