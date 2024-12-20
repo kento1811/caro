@@ -9,7 +9,7 @@ var posBot = 1;
 function win(winning){
     if(winning){
         let player = !turn ? "player"  : "AI";
-        title.innerText = `player ${player} win`;
+        title.innerText = `${player} win`;
         play = false;
         round = 0;
     } else if(round === 9){
